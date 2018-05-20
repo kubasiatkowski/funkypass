@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
      log.Info($"accessToken: {accessToken}");
 
     
-    var str  = WebConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
+    var str  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     
     using (SqlConnection conn = new SqlConnection(str))
     {
@@ -19,8 +19,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         conn.Open();
         var sqlquery = "SELECT DISTINCT [lang] FROM [dbo].[words]";
     
-        SqlCommand cmd = new SqlCommand(sqlquery, conn))
-        SqlDataReader reader = cmd.ExecuteReader())
+        SqlCommand cmd = new SqlCommand(sqlquery, conn);
+        SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
             log.Info($"{reader.GetString(0)}");
