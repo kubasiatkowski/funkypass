@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
      log.Info($"accessToken: {accessToken}");
 
     
-    var str  = WebConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
+   /* var str  = WebConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     
     using (SqlConnection conn = new SqlConnection(str))
     {
@@ -25,7 +25,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         {
             log.Info($"{reader.GetString(0)}");
         }         
-    }
+    }*/
             return req.CreateResponse(HttpStatusCode.OK);
 
 }
