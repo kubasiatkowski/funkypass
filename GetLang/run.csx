@@ -30,7 +30,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         }         
     }
     */
-
+    SqlConnection conn = new SqlConnection();
     conn.ConnectionString = WebConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     // DataSource != LocalDB means app is running in Azure with the SQLDB connection string you configured
     if(conn.DataSource != "(localdb)\\MSSQLLocalDB")
