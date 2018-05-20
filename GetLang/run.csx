@@ -2,7 +2,7 @@ using System.Net;
 using Microsoft.Azure.Services.AppAuthentication;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Web.Configuration;
+//using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
@@ -31,7 +31,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     */
     SqlConnection conn = new SqlConnection();
-    conn.ConnectionString = WebConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
+    conn.ConnectionString = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     // DataSource != LocalDB means app is running in Azure with the SQLDB connection string you configured
     if(conn.DataSource != "(localdb)\\MSSQLLocalDB")
         conn.AccessToken = (new AzureServiceTokenProvider()).GetAccessTokenAsync("https://database.windows.net/").Result;
