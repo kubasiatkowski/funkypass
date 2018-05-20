@@ -29,7 +29,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         }         
     }
 
-    conn.Open();
             return req.CreateResponse(HttpStatusCode.OK);
 
 }
