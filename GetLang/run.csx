@@ -12,9 +12,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
      log.Info($"accessToken: {accessToken}");
 
     
-    var str  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
-    
-    using (SqlConnection conn = new SqlConnection(str))
+    var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
+    log.Info($"connectionString: {connStr}");
+    using (SqlConnection conn = new SqlConnection(connStr))
     {
         conn.AccessToken = accessToken;
         conn.Open();
