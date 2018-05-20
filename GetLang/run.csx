@@ -12,8 +12,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
      string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
      log.Info($"accessToken: {accessToken}");
 
-/*
-    
+
     var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     log.Info($"connectionString: {connStr}");
     using (SqlConnection conn = new SqlConnection(connStr))
@@ -29,12 +28,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             log.Info($"{reader.GetString(0)}");
         }         
     }
-    */
-    SqlConnection conn = new SqlConnection();
-    conn.ConnectionString = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
-    // DataSource != LocalDB means app is running in Azure with the SQLDB connection string you configured
-    if(conn.DataSource != "(localdb)\\MSSQLLocalDB")
-        conn.AccessToken = (new AzureServiceTokenProvider()).GetAccessTokenAsync("https://database.windows.net/").Result;
 
     conn.Open();
             return req.CreateResponse(HttpStatusCode.OK);
