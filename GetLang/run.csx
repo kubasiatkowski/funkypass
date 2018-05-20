@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.Azure.Services.AppAuthentication;
+using System.Configuration;
 using System.Data.SqlClient;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
