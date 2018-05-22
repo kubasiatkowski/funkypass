@@ -34,6 +34,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         }         
     }
 
-            return req.CreateResponse(HttpStatusCode.OK,languages);
 
+        Test t = new Test();
+        t.languages = languages;
+        return req.CreateResponse(HttpStatusCode.OK, t); //"Hello " + name)
+}
+
+
+public class Test
+{
+    public  List<string> languages;
 }
