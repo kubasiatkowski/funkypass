@@ -15,6 +15,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     log.Info($"connectionString: {connStr}");
+    var languages = new List<string>()
     using (SqlConnection conn = new SqlConnection(connStr))
     {
         conn.AccessToken = accessToken;
@@ -23,12 +24,16 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     
         SqlCommand cmd = new SqlCommand(sqlquery, conn);
         SqlDataReader reader = cmd.ExecuteReader();
+        ; 
         while (reader.Read())
         {
-            log.Info($"{reader.GetString(0)}");
+            string sqlread = reader.GetString(0);
+            log.Info($"{sqlread}");
+            languages.Add(sqlread);
+            
         }         
     }
 
-            return req.CreateResponse(HttpStatusCode.OK);
+            return req.CreateResponse(HttpStatusCode.OK,languages);
 
 }
