@@ -15,7 +15,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     log.Info($"connectionString: {connStr}");
-    var languages = new List<string>()
+    var languages = new List<string>();
     using (SqlConnection conn = new SqlConnection(connStr))
     {
         conn.AccessToken = accessToken;
