@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.Azure.Services.AppAuthentication;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Random;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
@@ -62,6 +63,12 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             where lan.langcode == lang
             select lan; 
 
+    if (selectedlanguage == null || lang == "Random")
+    {
+        Random rnd = new Random();
+        int r = rnd.Next(languages.Count);
+        selectedlanguage = languages[r];
+    }
     //log.Info($"{selectedlanguage.langname}");
     
         return req.CreateResponse(HttpStatusCode.OK, selectedlanguage);
