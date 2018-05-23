@@ -15,7 +15,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     log.Info($"connectionString: {connStr}");
-    var languages = new List<string>();
+    var languages = new List<Language>();
+
     using (SqlConnection conn = new SqlConnection(connStr))
     {
         conn.AccessToken = accessToken;
@@ -32,19 +33,30 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         {
             string sqlread = reader.GetString(0);
             log.Info($"{sqlread}");
-            languages.Add(sqlread);
-            
+            //languages.Add(sqlread);
+            Language l = new Language();
+            l.langcode = reader.GetString("langname");
+            l.langname = reader.GetString("langname");
+            l.dictionarysize = reader.GetString("maxid");
+            languages.Add(l);
         }         
     }
 
 
-        Test t = new Test();
-        t.languages = languages;
-        return req.CreateResponse(HttpStatusCode.OK, t); //"Hello " + name)
+        //Test t = new Test();
+        //t.languages = languages;
+        return req.CreateResponse(HttpStatusCode.OK, languages); //"Hello " + name)
 }
 
 
 public class Test
 {
-    public  List<string> languages;
+    public  List<Language> languages;
+}
+
+public class Language
+{
+    public string langcode;
+    public string langname;
+    public int dictionarysize;
 }
