@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
-    int minlen = 10;
+    int minlen = 14;
     int maxlen = 20;
     int curlen = 0;
     // parse query parameter
@@ -98,7 +98,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             //languages.Add(sqlread);
             words.Add(reader.GetString(0));
             curlen += (reader.GetString(0)).Length;
-        }         
+        } 
+
+        words.Add(((char)r.Next(33,64)).ToString());
+        curlen++;
+
     }
 
     }
