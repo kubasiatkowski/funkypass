@@ -35,9 +35,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             log.Info($"{sqlread}");
             //languages.Add(sqlread);
             Language l = new Language();
-            l.langcode = reader.GetString("langname");
-            l.langname = reader.GetString("langname");
-            l.dictionarysize = reader.GetInt("maxid");
+            l.langcode = reader.GetString(0);
+            l.langname = reader.GetString(1);
+            l.dictionarysize = reader.GetInt32(2);
             languages.Add(l);
         }         
     }
