@@ -59,10 +59,12 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     Language selllang = new Language();
     //var selectedlanguage = 
-    selllang =
-            from lan in languages
+
+    var result = from lan in languages
             where lan.langcode == lang
-            select lan; 
+            select lan;
+    selllang = new ObservableCollection<selllang>(result);
+
 
     if (selllang == null || lang == "Random")
     {
