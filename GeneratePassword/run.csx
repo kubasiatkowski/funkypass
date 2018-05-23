@@ -44,20 +44,25 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         while (reader.Read())
         {
-            string sqlread = reader.GetString(0);
-            log.Info($"{sqlread}");
+           // string sqlread = reader.GetString(0);
+           // log.Info($"{sqlread}");
             //languages.Add(sqlread);
             Language l = new Language();
             l.langcode = reader.GetString(0);
             l.langname = reader.GetString(1);
             l.dictionarysize = reader.GetInt32(2);
             languages.Add(l);
+            log.Info($"{l}");
         }         
     }
 
    // Language l = new Language();
-    //l = languages.Where 
-    
+    var selectedlanguage = 
+            from lan in languages
+            where lan.langcode == lang
+            select p; 
+
+    log.Info($"{selectedlanguage}");
     
         return req.CreateResponse(HttpStatusCode.OK, "Language " + lang);
 
