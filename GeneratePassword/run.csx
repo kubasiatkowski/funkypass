@@ -8,6 +8,19 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     log.Info("C# HTTP trigger function processed a request.");
 
+    // parse query parameter
+    string lang = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
+        .Value;
+
+    // Get request body
+    dynamic data = await req.Content.ReadAsAsync<object>();
+
+    // Set name to query string or body data
+    lang = lang ?? data?.lang;
+
+     log.Info($"Selected language {lang}");
+
      var tokenProvider = new AzureServiceTokenProvider();
      string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
      log.Info($"accessToken: {accessToken}");
@@ -28,7 +41,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     
         SqlCommand cmd = new SqlCommand(sqlquery, conn);
         SqlDataReader reader = cmd.ExecuteReader();
-        ; 
+
         while (reader.Read())
         {
             string sqlread = reader.GetString(0);
@@ -42,10 +55,12 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         }         
     }
 
+    Language l = new Language();
+    //l = languages.Where 
+    
+    
+        return req.CreateResponse(HttpStatusCode.OK, "Language " + lang);
 
-        //Test t = new Test();
-        //t.languages = languages;
-        return req.CreateResponse(HttpStatusCode.OK, languages); //"Hello " + name)
 }
 
 
