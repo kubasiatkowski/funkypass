@@ -96,7 +96,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
            // string sqlread = reader.GetString(0);
            // log.Info($"{sqlread}");
             //languages.Add(sqlread);
-            words.add(reader.GetString(0));
+            words.Add(reader.GetString(0));
             curlen += (reader.GetString(0)).Length;
         }         
     }
