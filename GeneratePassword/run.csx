@@ -2,7 +2,7 @@ using System.Net;
 using Microsoft.Azure.Services.AppAuthentication;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Random;
+using System;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
@@ -57,22 +57,22 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         }         
     }
 
-   // Language l = new Language();
-    var selectedlanguage = 
+    Language selllang = new Language();
+    //var selectedlanguage = 
+    selllang =
             from lan in languages
             where lan.langcode == lang
             select lan; 
 
-    if (selectedlanguage == null || lang == "Random")
+    if (selllang == null || lang == "Random")
     {
         Random rnd = new Random();
         int r = rnd.Next(languages.Count);
-        selectedlanguage = languages[r];
+        selllang = languages[r];
     }
     //log.Info($"{selectedlanguage.langname}");
     
-        return req.CreateResponse(HttpStatusCode.OK, selectedlanguage);
-
+        return req.CreateResponse(HttpStatusCode.OK, selllang);
 }
 
 
