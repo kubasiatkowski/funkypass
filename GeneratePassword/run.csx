@@ -3,6 +3,7 @@ using Microsoft.Azure.Services.AppAuthentication;
 using System.Configuration;
 using System.Data.SqlClient;
 using System;
+using System.Collections.ObjectModel;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
