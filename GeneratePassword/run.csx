@@ -9,7 +9,9 @@ using System.Collections.ObjectModel;
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
-
+    int minlen = 10;
+    int maxlen = 20;
+    int curlen = 0;
     // parse query parameter
     string lang = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
@@ -74,15 +76,36 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         selllang = languages[r];
     }
     //log.Info($"{selectedlanguage.langname}");
+    var words = new List<string>();
+    while (curlen < minlen)
+    {
+    using (SqlConnection conn = new SqlConnection(connStr))
+    {
+        conn.AccessToken = accessToken;
+        conn.Open();
+        Random r = new Random();
+        r.Next(selllang.dictionarysize);
+
+        var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + r;
     
-        return req.CreateResponse(HttpStatusCode.OK, selllang);
+        SqlCommand cmd = new SqlCommand(sqlquery, conn);
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        while (reader.Read())
+        {
+           // string sqlread = reader.GetString(0);
+           // log.Info($"{sqlread}");
+            //languages.Add(sqlread);
+            words += reader.GetString(0);
+            curlen += (reader.GetString(0)).Length;
+        }         
+    }
+
+    }
+      return req.CreateResponse(HttpStatusCode.OK, words);
+      //  return req.CreateResponse(HttpStatusCode.OK, selllang);
 }
 
-
-public class Test
-{
-    public  List<Language> languages;
-}
 
 public class Language
 {
