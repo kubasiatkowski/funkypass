@@ -12,6 +12,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     int minlen = 14;
     int maxlen = 20;
     int curlen = 0;
+    Random r = new Random();
+
     // parse query parameter
     string lang = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
@@ -71,7 +73,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     if (selllang == null || lang == "Random")
     {
-        Random rnd = new Random();
         int r = rnd.Next(languages.Count);
         selllang = languages[r];
     }
@@ -84,7 +85,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     {
         conn.AccessToken = accessToken;
         conn.Open();
-        Random r = new Random();
+
         int id = r.Next(selllang.dictionarysize);
 
         var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id;
