@@ -77,6 +77,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
+
     while (curlen < minlen)
     {
     using (SqlConnection conn = new SqlConnection(connStr))
@@ -102,6 +103,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         words.Add(((char)r.Next(33,64)).ToString());
         curlen++;
+        string number = (r.Next(0,100)).ToString());
+        words.Add(number);
+        curlen+=number.Length;
 
     }
 
