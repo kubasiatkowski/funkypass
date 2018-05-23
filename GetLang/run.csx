@@ -20,7 +20,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     {
         conn.AccessToken = accessToken;
         conn.Open();
-        var sqlquery = "SELECT DISTINCT [lang] FROM [dbo].[words]";
+        var sqlquery = @"SELECT [langcode]
+                        ,[langname]
+                        ,[maxid]
+                        FROM [dbo].[dictionaries]";
     
         SqlCommand cmd = new SqlCommand(sqlquery, conn);
         SqlDataReader reader = cmd.ExecuteReader();
