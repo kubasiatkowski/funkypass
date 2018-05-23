@@ -12,7 +12,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     int minlen = 14;
     int maxlen = 20;
     int curlen = 0;
-    Random r = new Random();
+    Random rnd = new Random();
 
     // parse query parameter
     string lang = req.GetQueryNameValuePairs()
@@ -86,7 +86,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         conn.AccessToken = accessToken;
         conn.Open();
 
-        int id = r.Next(selllang.dictionarysize);
+        int id = rnd.Next(selllang.dictionarysize);
 
         var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id;
          log.Info($"{sqlquery}");
@@ -102,9 +102,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             curlen += (reader.GetString(0)).Length;
         } 
 
-        words.Add(((char)r.Next(33,64)).ToString());
+        words.Add(((char)rnd.Next(33,64)).ToString());
         curlen++;
-        string number = (r.Next(0,100)).ToString();
+        string number = (rnd.Next(0,100)).ToString();
         words.Add(number);
         curlen+=number.Length;
 
