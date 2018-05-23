@@ -103,7 +103,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         words.Add(((char)r.Next(33,64)).ToString());
         curlen++;
-        string number = (r.Next(0,100)).ToString());
+        string number = (r.Next(0,100)).ToString();
         words.Add(number);
         curlen+=number.Length;
 
