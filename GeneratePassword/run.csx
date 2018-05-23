@@ -84,9 +84,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         conn.AccessToken = accessToken;
         conn.Open();
         Random r = new Random();
-        r.Next(selllang.dictionarysize);
+        int id = r.Next(selllang.dictionarysize);
 
-        var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + r.ToString();
+        var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id;
          log.Info($"{sqlquery}");
         SqlCommand cmd = new SqlCommand(sqlquery, conn);
         SqlDataReader reader = cmd.ExecuteReader();
