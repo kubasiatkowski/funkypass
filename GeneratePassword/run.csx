@@ -55,7 +55,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         }         
     }
 
-    Language l = new Language();
+   // Language l = new Language();
     //l = languages.Where 
     
     
