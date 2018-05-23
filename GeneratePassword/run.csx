@@ -60,7 +60,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     var selectedlanguage = 
             from lan in languages
             where lan.langcode == lang
-            select p; 
+            select lan; 
 
     log.Info($"{selectedlanguage}");
     
