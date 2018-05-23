@@ -62,9 +62,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             where lan.langcode == lang
             select lan; 
 
-    log.Info($"{selectedlanguage}");
+    //log.Info($"{selectedlanguage.langname}");
     
-        return req.CreateResponse(HttpStatusCode.OK, "Language " + lang);
+        return req.CreateResponse(HttpStatusCode.OK, selectedlanguage);
 
 }
 
