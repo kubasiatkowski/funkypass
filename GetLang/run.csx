@@ -37,7 +37,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             Language l = new Language();
             l.langcode = reader.GetString("langname");
             l.langname = reader.GetString("langname");
-            l.dictionarysize = reader.GetString("maxid");
+            l.dictionarysize = reader.GetInt("maxid");
             languages.Add(l);
         }         
     }
