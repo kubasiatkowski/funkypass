@@ -17,24 +17,27 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     string lang = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
         .Value;
-    int? minlen = req.GetQueryNameValuePairs()
+    int? minlen;
+    int.TryParse (req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "minlen", true) == 0)
-        .Value;
-    int? maxlen = req.GetQueryNameValuePairs()
+        .Value, out minlen);
+    int? maxlen;
+    int.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
-        .Value; 
-    bool? asciionly = req.GetQueryNameValuePairs()
+        .Value, out maxlen); 
+    bool? asciionly;
+    bool.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
-        .Value;       
+        .Value, out asciionly);       
 
     // Get request body
     dynamic data = await req.Content.ReadAsAsync<object>();
 
     // Set name to query string or body data
     lang = (lang ?? data?.lang) ?? "Random";
-    minlen = (minlen ?? data?.minlen) ?? 14;
-    maxlen = (maxlen ?? data?.maxlen) ?? 20; 
-    asciionly = (asciionly?? data?.asciionly) ?? true; 
+   // minlen = (minlen ?? data?.minlen) ?? 14;
+    //maxlen = (maxlen ?? data?.maxlen) ?? 20; 
+   // asciionly = (asciionly?? data?.asciionly) ?? true; 
 
 
     log.Info($"Language {lang}");
@@ -45,8 +48,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     Random rnd = new Random();
 
      var tokenProvider = new AzureServiceTokenProvider();
-     //string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
-     log.Info($"accessToken: {accessToken}");
+     string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
+     //log.Info($"accessToken: {accessToken}");
 
 
     var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
