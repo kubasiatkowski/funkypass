@@ -30,10 +30,18 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value, out asciionly);       
 
-    log.Info("ASCII: " + req.GetQueryNameValuePairs()
+    /*log.Info("ASCII: " + req.GetQueryNameValuePairs()
         .First(q => string.Compare(q.Key, "asciionly", true))
         .Value);
+*/
 
+    IEnumerable<KeyValuePair<string, string>> values = req.GetQueryNameValuePairs();
+
+    // Write query parameters to log
+    foreach (KeyValuePair<string, string> val in values)
+    {
+        log.Info($"Parameter: {val.Key}\nValue: {val.Value} \n Type: {val.GetType()} \n");
+    }
     // Get request body
     dynamic data = await req.Content.ReadAsAsync<object>();
 
