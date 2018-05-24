@@ -35,8 +35,12 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     // Set name to query string or body data
     lang = (lang ?? data?.lang) ?? "Random";
-   // minlen = (minlen ?? data?.minlen) ?? 14;
-    //maxlen = (maxlen ?? data?.maxlen) ?? 20; 
+
+
+    if (minlen==0)
+        minlen =  data?.minlen ?? 14;
+    if (maxlen==0)    
+        maxlen = data?.maxlen ?? 20; 
    // asciionly = (asciionly?? data?.asciionly) ?? true; 
 
 
