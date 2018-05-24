@@ -17,15 +17,15 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     string lang = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
         .Value;
-    int? minlen;
+    int minlen;
     int.TryParse (req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "minlen", true) == 0)
         .Value, out minlen);
-    int? maxlen;
+    int maxlen;
     int.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
         .Value, out maxlen); 
-    bool? asciionly;
+    bool asciionly;
     bool.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value, out asciionly);       
