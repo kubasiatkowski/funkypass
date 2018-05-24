@@ -31,7 +31,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         .Value, out asciionly);       
 
     log.Info("ASCII: " + req.GetQueryNameValuePairs()
-        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true))
+        .First(q => string.Compare(q.Key, "asciionly", true))
         .Value);
 
     // Get request body
