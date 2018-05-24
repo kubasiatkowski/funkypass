@@ -30,6 +30,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value, out asciionly);       
 
+    log.Info(req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
+        .Value);
+
     // Get request body
     dynamic data = await req.Content.ReadAsAsync<object>();
 
