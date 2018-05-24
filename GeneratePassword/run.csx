@@ -9,31 +9,48 @@ using System.Collections.ObjectModel;
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
-    int minlen = 14;
-    int maxlen = 20;
-    int curlen = 0;
-    Random rnd = new Random();
+    //int minlen = 14;
+    //int maxlen = 20;
+
 
     // parse query parameter
     string lang = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
         .Value;
+    int? minlen = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "minlen", true) == 0)
+        .Value;
+    int? maxlen = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
+        .Value; 
+    bool? asciionly = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
+        .Value;       
 
     // Get request body
     dynamic data = await req.Content.ReadAsAsync<object>();
 
     // Set name to query string or body data
-    lang = lang ?? data?.lang;
+    lang = (lang ?? data?.lang) ?? "Random";
+    minlen = (minlen ?? data?.minlen) ?? 14;
+    maxlen = (maxlen ?? data?.maxlen) ?? 20; 
+    asciionly = (asciionly?? data?.asciionly) ?? true; 
 
-     log.Info($"Selected language {lang}");
+
+    log.Info($"Language {lang}");
+    log.Info($"Minlen {minlen}");
+    log.Info($"Maxlen {maxlen}");
+    log.Info($"ASCIIonly {asciionly}");
+    int curlen = 0;
+    Random rnd = new Random();
 
      var tokenProvider = new AzureServiceTokenProvider();
-     string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
+     //string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
      log.Info($"accessToken: {accessToken}");
 
 
     var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
-    log.Info($"connectionString: {connStr}");
+    //log.Info($"connectionString: {connStr}");
     var languages = new List<Language>();
 
     using (SqlConnection conn = new SqlConnection(connStr))
