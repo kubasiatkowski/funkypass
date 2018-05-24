@@ -30,7 +30,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value, out asciionly);       
     string debug = req.GetQueryNameValuePairs()
-        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true))
+        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value;
     log.Info($"ASCII debug: {debug} "  );
 
