@@ -29,10 +29,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     bool.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value, out asciionly);       
-
-    log.Info("ASCII debug: " + req.GetQueryNameValuePairs()
+    string debug = req.GetQueryNameValuePairs()
         .First(q => string.Compare(q.Key, "asciionly", true))
-        .Value);
+        .Value;
+    log.Info($"ASCII debug: {debug} "  );
 
 
     IEnumerable<KeyValuePair<string, string>> values = req.GetQueryNameValuePairs();
