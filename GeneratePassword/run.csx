@@ -162,6 +162,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     }
 
+    for (int i =0; i < words.Count; i++)
+    {
+        log.Info(words[i] + " " + words[i].normalize());
+    }
+
     }
       return req.CreateResponse(HttpStatusCode.OK, words);
       //  return req.CreateResponse(HttpStatusCode.OK, selllang);
