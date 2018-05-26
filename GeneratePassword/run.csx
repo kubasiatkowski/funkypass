@@ -9,9 +9,6 @@ using System.Collections.ObjectModel;
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
-    //int minlen = 14;
-    //int maxlen = 20;
-
 
     // parse query parameter
     string lang = req.GetQueryNameValuePairs()
@@ -25,23 +22,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     int.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
         .Value, out maxlen); 
-    bool asciionly;
-    bool.TryParse(req.GetQueryNameValuePairs()
-        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
-        .Value, out asciionly);       
-    string debug = req.GetQueryNameValuePairs()
+    string asciionly = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value;
-    log.Info($"ASCII debug: {debug} "  );
-
-
-    IEnumerable<KeyValuePair<string, string>> values = req.GetQueryNameValuePairs();
-
-    // Write query parameters to log
-    foreach (KeyValuePair<string, string> val in values)
-    {
-        log.Info($"Parameter: {val.Key}\nValue: {val.Value} \n Type: {val.GetType()} \n");
-    }
     // Get request body
     dynamic data = await req.Content.ReadAsAsync<object>();
 
@@ -52,14 +35,20 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     if (minlen==0)
         minlen =  data?.minlen ?? 14;
     if (maxlen==0)    
-        maxlen = data?.maxlen ?? 20; 
-   // asciionly = (asciionly?? data?.asciionly) ?? true; 
+        maxlen = data?.maxlen ?? 32; 
+ 
+    asciionly = (asciionly ?? data?.asciionly) ?? "True";
+
+    bool ascii;
+    bool.TryParse(asciionly,out ascii);
 
 
     log.Info($"Language {lang}");
     log.Info($"Minlen {minlen}");
     log.Info($"Maxlen {maxlen}");
-    log.Info($"ASCIIonly {asciionly}");
+    log.Info($"ASCIIonly {ascii}");
+
+
     int curlen = 0;
     Random rnd = new Random();
 
