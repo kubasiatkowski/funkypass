@@ -41,7 +41,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
  
     if (maxlen < minlen)
     {
-        maxlen=minlen;
+        maxlen=minlen+15;
     }
     asciionly = (asciionly ?? data?.asciionly) ?? "True";
 
