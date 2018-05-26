@@ -39,6 +39,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     if (maxlen==0)    
         maxlen = data?.maxlen ?? 32; 
  
+    if (maxlen < minlen)
+    {
+        maxlen=minlen;
+    }
     asciionly = (asciionly ?? data?.asciionly) ?? "True";
 
     bool ascii;
@@ -151,9 +155,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             curlen ++;
         }
         else{
-            num = rnd.Next(0,100).ToString();
-            words.Add(num);
-            curlen += num.Length;
+            word = rnd.Next(0,100).ToString();
+            words.Add(word);
+            curlen += word.Length;
         }
 
     }
