@@ -105,7 +105,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
-    words.Add(specialchars[rnd.Next(0,specialchars.Length)]);
+    words.Add(specialchars[rnd.Next(0,specialchars.Length)].ToString());
     curlen ++;
    
     string num = rnd.Next(0,1000).ToString();
@@ -142,7 +142,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         if(rnd.NextDouble() > 0.5)
         {
-            words.Add(specialchars[rnd.Next(0,specialchars.Length)]);
+            words.Add(specialchars[rnd.Next(0,specialchars.Length)].ToString());
             curlen ++;
         }
         else{
