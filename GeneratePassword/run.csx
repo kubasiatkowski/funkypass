@@ -108,9 +108,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     words.Add(specialchars[rnd.Next(0,specialchars.Length)].ToString());
     curlen ++;
    
-    string num = rnd.Next(0,1000).ToString();
-    words.Add(num);
-    curlen += num.Length;
+    string word = rnd.Next(0,1000).ToString();
+    words.Add(word);
+    curlen += word.Length;
 
     while (curlen < minlen)
     {
@@ -131,11 +131,16 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
            // string sqlread = reader.GetString(0);
            // log.Info($"{sqlread}");
             //languages.Add(sqlread);
-            words.Add(reader.GetString(0));
-            curlen += (reader.GetString(0)).Length;
+            word =reader.GetString(0);
+            if(curlen + word.Length > maxlen)
+            {
+                word = word.Remove(maxlen-curlen);
+            }
+            words.Add(word);
+            curlen += (word).Length;
         } 
 
-        if (curlen>minlen)
+        if (curlen>=minlen)
         {
             break;
         }
