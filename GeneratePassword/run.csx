@@ -10,7 +10,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     log.Info("C# HTTP trigger function processed a request.");
 
-    // parse query parameter
+    string specialchars ="!@#$%^&*()-_=+[{]}\\|;:\"',<.>/?";
+
+    // parse query parameteru
     string lang = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
         .Value;
@@ -103,6 +105,12 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
+    words.Add(specialchars[rnd.Next(0,specialchars.Length)]);
+    curlen ++;
+   
+    string num = rnd.Next(0,1000).ToString();
+    words.Add(num);
+    curlen += num.Length;
 
     while (curlen < minlen)
     {
@@ -127,11 +135,21 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             curlen += (reader.GetString(0)).Length;
         } 
 
-        words.Add(((char)rnd.Next(33,64)).ToString());
-        curlen++;
-        string number = (rnd.Next(0,100)).ToString();
-        words.Add(number);
-        curlen+=number.Length;
+        if (curlen>minlen)
+        {
+            break;
+        }
+
+        if(rnd.NextDouble() > 0.5)
+        {
+            words.Add(specialchars[rnd.Next(0,specialchars.Length)]);
+            curlen ++;
+        }
+        else{
+            num = rnd.Next(0,100).ToString();
+            words.Add(num);
+            curlen += num.Length;
+        }
 
     }
 
