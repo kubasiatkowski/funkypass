@@ -171,7 +171,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         string text =  words[i].Normalize(NormalizationForm.FormD);
         var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
-        //log.Info(words[i] + " " + (new string(chars).Normalize(NormalizationForm.FormC)));
+        log.Info(words[i] + " " + (new string(chars).Normalize(NormalizationForm.FormC)));
     }
 
     }
