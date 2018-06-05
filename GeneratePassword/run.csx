@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
+using System.Globalization;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
