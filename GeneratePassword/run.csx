@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Linq;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
@@ -168,7 +169,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
        // log.Info(words[i] + " " + words[i].Normalize());
 
         string text =  words[i].Normalize(NormalizationForm.FormD);
-        //var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
+        var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
         //log.Info(words[i] + " " + (new string(chars).Normalize(NormalizationForm.FormC)));
     }
 
