@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System;
 using System.Collections.ObjectModel;
-using Diacritics;
+using Diacritics.Extensions;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
@@ -138,10 +138,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
            // log.Info($"{sqlread}");
             //languages.Add(sqlread);
             words.Add(sqlread);
+            words.Add(sqlread.RemoveDiacritics());
 
-         
-            IDiacriticsMapper diacriticsMapper = new DiacriticsMapper();
-            words.Add(diacriticsMapper.RemoveDiacritics(sqlread));
+            
             curlen += (reader.GetString(0)).Length;
         } 
 
