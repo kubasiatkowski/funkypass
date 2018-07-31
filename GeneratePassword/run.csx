@@ -63,6 +63,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     log.Info($"Minlen {minlen}");
     log.Info($"Maxlen {maxlen}");
     log.Info($"ASCIIonly {asciionly}");
+    log.Info($"SASCIIonly {sasciionly}");
     int curlen = 0;
     Random rnd = new Random();
 
