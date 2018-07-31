@@ -116,7 +116,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
-
+    int tempent = 0;
     while (curlen < minlen)
     {
         using (SqlConnection conn = new SqlConnection(connStr))
@@ -153,11 +153,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
                 else
                     words.Add(sqlread.RemoveDiacritics());
                 curlen += (reader.GetString(0)).Length;
+                tempent += selllang.dictionarysize * 3;
             } 
 
             words.Add(((char)rnd.Next(33,64)).ToString());
+            tempent += 31;
             curlen++;
             string number = (rnd.Next(0,100)).ToString();
+            tempent += 100;
             words.Add(number);
             curlen+=number.Length;
 
@@ -167,6 +170,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
       res.words = words;
       res.password = string.Join("", words.ToArray());
       res.language = selllang;
+      res.entropy = Math.Log(tempent,2);
       return req.CreateResponse(HttpStatusCode.OK, res);
       //  return req.CreateResponse(HttpStatusCode.OK, selllang);
 }
@@ -184,4 +188,5 @@ public class Response
     public List<string> words;
     public String password;
     public Language language;
+    public double entropy;
 }
