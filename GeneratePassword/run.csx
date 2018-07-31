@@ -50,7 +50,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     // Set name to query string or body data
     lang = (lang ?? data?.lang) ?? "Random";
-
+    sasciionly = (sasciionly ?? data?.sasciionly) ?? "True";
 
     if (minlen==0)
         minlen =  data?.minlen ?? 14;
