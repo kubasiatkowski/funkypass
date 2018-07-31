@@ -22,10 +22,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     int.TryParse (req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "minlen", true) == 0)
         .Value, out minlen);
-    int maxlen;
-    int.TryParse(req.GetQueryNameValuePairs()
-        .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
-        .Value, out maxlen); 
+   // int maxlen;
+   // int.TryParse(req.GetQueryNameValuePairs()
+   //     .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
+   //     .Value, out maxlen); 
     string sasciionly = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value;
@@ -50,8 +50,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     if (minlen==0)
         minlen =  data?.minlen ?? 14;
-    if (maxlen==0)    
-        maxlen = data?.maxlen ?? 20; 
+   // if (maxlen==0)    
+   //     maxlen = data?.maxlen ?? 20; 
     
     bool asciionly = true;
     bool.TryParse(sasciionly, out asciionly);      
@@ -59,7 +59,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     log.Info($"Language {lang}");
     log.Info($"Minlen {minlen}");
-    log.Info($"Maxlen {maxlen}");
+  //  log.Info($"Maxlen {maxlen}");
     log.Info($"ASCIIonly {asciionly}");
     log.Info($"SASCIIonly {sasciionly}");
     int curlen = 0;
@@ -119,40 +119,37 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     while (curlen < minlen)
     {
-    using (SqlConnection conn = new SqlConnection(connStr))
-    {
-        conn.AccessToken = accessToken;
-        conn.Open();
-
-        int id = rnd.Next(selllang.dictionarysize);
-
-        var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id;
-         log.Info($"{sqlquery}");
-        SqlCommand cmd = new SqlCommand(sqlquery, conn);
-        SqlDataReader reader = cmd.ExecuteReader();
-
-        while (reader.Read())
+        using (SqlConnection conn = new SqlConnection(connStr))
         {
-           string sqlread = reader.GetString(0);
-           // log.Info($"{sqlread}");
-            //languages.Add(sqlread);
-            if (!asciionly)
-                words.Add(sqlread);
-            else
-                words.Add(sqlread.RemoveDiacritics());
+            conn.AccessToken = accessToken;
+            conn.Open();
 
-            
-            curlen += (reader.GetString(0)).Length;
-        } 
+            int id = rnd.Next(selllang.dictionarysize);
 
-        words.Add(((char)rnd.Next(33,64)).ToString());
-        curlen++;
-        string number = (rnd.Next(0,100)).ToString();
-        words.Add(number);
-        curlen+=number.Length;
+            var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id;
+            log.Info($"{sqlquery}");
+            SqlCommand cmd = new SqlCommand(sqlquery, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
 
-    }
-        
+            while (reader.Read())
+            {
+            string sqlread = reader.GetString(0);
+            // log.Info($"{sqlread}");
+                //languages.Add(sqlread);
+                if (!asciionly)
+                    words.Add(sqlread);
+                else
+                    words.Add(sqlread.RemoveDiacritics());
+                curlen += (reader.GetString(0)).Length;
+            } 
+
+            words.Add(((char)rnd.Next(33,64)).ToString());
+            curlen++;
+            string number = (rnd.Next(0,100)).ToString();
+            words.Add(number);
+            curlen+=number.Length;
+
+        }   
     }
       Response res = new Response();
       res.words = words;
