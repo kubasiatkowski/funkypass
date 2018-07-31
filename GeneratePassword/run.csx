@@ -152,9 +152,13 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         curlen+=number.Length;
 
     }
-
+        
     }
-      return req.CreateResponse(HttpStatusCode.OK, words);
+      Response res = new Response();
+      res.words = words;
+      res.password = string.Join("", words.ToArray());
+      res.language = selllang;
+      return req.CreateResponse(HttpStatusCode.OK, res);
       //  return req.CreateResponse(HttpStatusCode.OK, selllang);
 }
 
@@ -164,4 +168,11 @@ public class Language
     public string langcode;
     public string langname;
     public int dictionarysize;
+}
+
+public class Response
+{
+    public List<string> words;
+    public String password;
+    public Language language;
 }
