@@ -167,7 +167,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             dtempent += Math.Log(100,2);
             words.Add(number);
             curlen+=number.Length;
-
+            log.Info($"tempent {tempent}");
         }   
     }
       Response res = new Response();
