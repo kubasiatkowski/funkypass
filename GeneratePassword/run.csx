@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System;
 using System.Collections.ObjectModel;
+using Diacritics;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
@@ -29,10 +30,12 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     bool.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value, out asciionly);       
-    string debug = req.GetQueryNameValuePairs()
+    string sasciionly = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value;
-    log.Info($"ASCII debug: {debug} "  );
+
+
+   
 
 
     IEnumerable<KeyValuePair<string, string>> values = req.GetQueryNameValuePairs();
@@ -131,10 +134,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         while (reader.Read())
         {
-           // string sqlread = reader.GetString(0);
+           string sqlread = reader.GetString(0);
            // log.Info($"{sqlread}");
             //languages.Add(sqlread);
-            words.Add(reader.GetString(0));
+            words.Add(sqlread);
+            words.Add(sqlread.RemoveDiacritics())
             curlen += (reader.GetString(0)).Length;
         } 
 
