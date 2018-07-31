@@ -26,10 +26,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     int.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
         .Value, out maxlen); 
-    bool asciionly;
-    bool.TryParse(req.GetQueryNameValuePairs()
-        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
-        .Value, out asciionly);       
     string sasciionly = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value;
@@ -56,7 +52,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         minlen =  data?.minlen ?? 14;
     if (maxlen==0)    
         maxlen = data?.maxlen ?? 20; 
-   // asciionly = (asciionly?? data?.asciionly) ?? true; 
+    
+    bool asciionly = true;
+    bool.TryParse(sasciionly, out asciionly);      
 
 
     log.Info($"Language {lang}");
