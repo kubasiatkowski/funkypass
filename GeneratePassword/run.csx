@@ -4,18 +4,16 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Linq;
-using System.Globalization;
 //using System.Web.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
+    //int minlen = 14;
+    //int maxlen = 20;
 
-    string specialchars ="!@#$%^&*()-_=+[{]}\\|;:\"',<.>/?";
 
-    // parse query parameteru
+    // parse query parameter
     string lang = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "lang", true) == 0)
         .Value;
@@ -27,9 +25,23 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     int.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
         .Value, out maxlen); 
-    string asciionly = req.GetQueryNameValuePairs()
+    bool asciionly;
+    bool.TryParse(req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
+        .Value, out asciionly);       
+    string debug = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value;
+    log.Info($"ASCII debug: {debug} "  );
+
+
+    IEnumerable<KeyValuePair<string, string>> values = req.GetQueryNameValuePairs();
+
+    // Write query parameters to log
+    foreach (KeyValuePair<string, string> val in values)
+    {
+        log.Info($"Parameter: {val.Key}\nValue: {val.Value} \n Type: {val.GetType()} \n");
+    }
     // Get request body
     dynamic data = await req.Content.ReadAsAsync<object>();
 
@@ -40,24 +52,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     if (minlen==0)
         minlen =  data?.minlen ?? 14;
     if (maxlen==0)    
-        maxlen = data?.maxlen ?? 32; 
- 
-    if (maxlen < minlen)
-    {
-        maxlen=minlen+15;
-    }
-    asciionly = (asciionly ?? data?.asciionly) ?? "True";
-
-    bool ascii;
-    bool.TryParse(asciionly,out ascii);
+        maxlen = data?.maxlen ?? 20; 
+   // asciionly = (asciionly?? data?.asciionly) ?? true; 
 
 
     log.Info($"Language {lang}");
     log.Info($"Minlen {minlen}");
     log.Info($"Maxlen {maxlen}");
-    log.Info($"ASCIIonly {ascii}");
-
-
+    log.Info($"ASCIIonly {asciionly}");
     int curlen = 0;
     Random rnd = new Random();
 
@@ -112,12 +114,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
-    words.Add(specialchars[rnd.Next(0,specialchars.Length)].ToString());
-    curlen ++;
-   
-    string word = rnd.Next(0,1000).ToString();
-    words.Add(word);
-    curlen += word.Length;
 
     while (curlen < minlen)
     {
@@ -128,7 +124,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         int id = rnd.Next(selllang.dictionarysize);
 
-        var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id + " ORDER BY id";
+        var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id;
          log.Info($"{sqlquery}");
         SqlCommand cmd = new SqlCommand(sqlquery, conn);
         SqlDataReader reader = cmd.ExecuteReader();
@@ -138,40 +134,16 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
            // string sqlread = reader.GetString(0);
            // log.Info($"{sqlread}");
             //languages.Add(sqlread);
-            word =reader.GetString(0);
-            if(curlen + word.Length > maxlen)
-            {
-                word = word.Remove(maxlen-curlen);
-            }
-            words.Add(word);
-            curlen += (word).Length;
+            words.Add(reader.GetString(0));
+            curlen += (reader.GetString(0)).Length;
         } 
 
-        if (curlen>=minlen)
-        {
-            break;
-        }
+        words.Add(((char)rnd.Next(33,64)).ToString());
+        curlen++;
+        string number = (rnd.Next(0,100)).ToString();
+        words.Add(number);
+        curlen+=number.Length;
 
-        if(rnd.NextDouble() > 0.5)
-        {
-            words.Add(specialchars[rnd.Next(0,specialchars.Length)].ToString());
-            curlen ++;
-        }
-        else{
-            word = rnd.Next(0,100).ToString();
-            words.Add(word);
-            curlen += word.Length;
-        }
-
-    }
-
-    for (int i =0; i < words.Count; i++)
-    {
-       // log.Info(words[i] + " " + words[i].Normalize());
-
-        string text =  words[i].ToLower().Normalize(NormalizationForm.FormD);
-        var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.LowercaseLetter).ToArray();
-        log.Info(words[i] + " " + (new string(chars).Normalize(NormalizationForm.FormC)));
     }
 
     }
