@@ -139,9 +139,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             //languages.Add(sqlread);
             words.Add(sqlread);
 
-            / Arrange
+         
             IDiacriticsMapper diacriticsMapper = new DiacriticsMapper();
-            // Act
             words.Add(diacriticsMapper.RemoveDiacritics(sqlread));
             curlen += (reader.GetString(0)).Length;
         } 
