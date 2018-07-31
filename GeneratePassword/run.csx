@@ -137,8 +137,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
            string sqlread = reader.GetString(0);
            // log.Info($"{sqlread}");
             //languages.Add(sqlread);
-            words.Add(sqlread);
-            words.Add(sqlread.RemoveDiacritics());
+            if (!asciionly)
+                words.Add(sqlread);
+            else
+                words.Add(sqlread.RemoveDiacritics());
 
             
             curlen += (reader.GetString(0)).Length;
