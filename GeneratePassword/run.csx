@@ -133,9 +133,21 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
             while (reader.Read())
             {
-            string sqlread = reader.GetString(0);
-            // log.Info($"{sqlread}");
-                //languages.Add(sqlread);
+                string sqlread = reader.GetString(0);
+            
+                int capitalize = rnd.Next(0,4);
+                switch (capitalize)
+                {
+                    case 0:
+                        sqlread = sqlread.ToUpper();
+                        break;
+                    case 1:
+                        sqlread = sqlread.ToLower();
+                        break;
+                    default:
+                        sqlread = sqlread.First().ToString().ToUpper() + sqlread.Substring(1).ToLower();
+                        break;
+                }
                 if (!asciionly)
                     words.Add(sqlread);
                 else
