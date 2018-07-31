@@ -116,7 +116,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
-    long tempent = 1;
+    Int64 tempent = 1;
     double dtempent = 0;
     while (curlen < minlen)
     {
