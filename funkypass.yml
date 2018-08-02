@@ -1,0 +1,81 @@
+swagger: '2.0'
+info:
+  title: funkypassdev.azurewebsites.net
+  version: 1.0.0
+host: funkypassdev.azurewebsites.net
+basePath: /
+schemes:
+  - https
+  - http
+produces: ["application/json"]
+consumes: ["application/json"]
+paths:
+  /api/GeneratePassword:
+    get:
+      operationId: /api/GeneratePassword/get
+
+      parameters: [
+        {
+          "name": "minlen",
+          "in": "query",
+          "description": "Minimum password length",
+          "required": false,
+          "type": "integer"
+        },
+        {
+          "name": "lang",
+          "in": "query",
+          "description": "Language",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "asciionly",
+          "in": "query",
+          "description": "Remove diacritics",
+          "required": false,
+          "type": "boolean"
+        }
+        ]
+      description: >-
+        Replace with Operation Object
+        #http://swagger.io/specification/#operationObject
+      responses:
+        '200':
+          description: Success operation
+      security:
+        - apikeyQuery: []
+    post:
+      operationId: /api/GeneratePassword/post
+      produces: []
+      consumes: []
+      parameters: []
+      description: >-
+        Genereates new random password based on selected dictionary
+      responses:
+        '200':
+          description: Success operation
+      security:
+        - apikeyQuery: []
+
+  /api/GetLang:
+    get:
+      operationId: /api/GetLang/get
+      produces: []
+      consumes: []
+      parameters: []
+      description: >-
+        Replace with Operation Object
+        #http://swagger.io/specification/#operationObject
+      responses:
+        '200':
+          description: Success operation
+      security:
+        - apikeyQuery: []
+
+definitions: {}
+securityDefinitions:
+  apikeyQuery:
+    type: apiKey
+    name: code
+    in: query
