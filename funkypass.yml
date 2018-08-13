@@ -21,13 +21,13 @@ paths:
           description: Minimum password length
           required: false
           type: integer
-          default: 10 
+          default: 10
         - name: lang
           in: query
           description: 'Language, list of languages /api/GetLang/get'
           required: false
           type: string
-          default: "Random"
+          default: Random
         - name: asciionly
           in: query
           description: Remove diacritics
@@ -54,7 +54,7 @@ paths:
           description: 'Language, list of languages /api/GetLang/get'
           required: false
           type: string
-          default: "Random"
+          default: Random
         - name: asciionly
           in: query
           description: Remove diacritics
@@ -74,6 +74,20 @@ paths:
       responses:
         '200':
           description: Success operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                language_code:
+                  type: string
+                  description: Language code.
+                language_name:
+                  type: string
+                  description: Description of the language.
+                dictionarysize:
+                  type: integer
+                  description: Number of words for the language
       security:
         - apikeyQuery: []
 definitions: {}
