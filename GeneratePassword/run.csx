@@ -92,9 +92,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
            // log.Info($"{sqlread}");
             //languages.Add(sqlread);
             Language l = new Language();
-            l.langcode = reader.GetString(0);
-            l.langname = reader.GetString(1);
-            l.dictionarysize = reader.GetInt32(2);
+            l.language_code= reader.GetString(0);
+            l.language_name = reader.GetString(1);
+            l.dictionary_size = reader.GetInt32(2);
             languages.Add(l);
             log.Info($"{l}");
         }         
@@ -104,7 +104,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     //var selectedlanguage = 
 
     var result = from lan in languages
-            where lan.langcode == lang
+            where lan.language_code== lang
             select lan;
     selllang = result.FirstOrDefault();
 
@@ -124,9 +124,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             conn.AccessToken = accessToken;
             conn.Open();
 
-            int id = rnd.Next(selllang.dictionarysize);
+            int id = rnd.Next(selllang.dictionary_size);
 
-            var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.langcode+" WHERE id >" + id;
+            var sqlquery = "SELECT TOP 1 word FROM words_"+selllang.language_code+" WHERE id >" + id;
             log.Info($"{sqlquery}");
             SqlCommand cmd = new SqlCommand(sqlquery, conn);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -153,7 +153,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
                 else
                     words.Add(sqlread.RemoveDiacritics());
                 curlen += (reader.GetString(0)).Length;
-                dtempent += Math.Log(selllang.dictionarysize * 3,2);
+                dtempent += Math.Log(selllang.dictionary_size * 3,2);
             } 
 
             words.Add(((char)rnd.Next(33,64)).ToString());
@@ -169,8 +169,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
       res.words = words;
       res.password = string.Join("", words.ToArray());
       res.language = selllang;
-      res.entropy = dtempent;
-      res.length = curlen;
+      res.password_entropy = dtempent;
+      res.password_length = curlen;
       return req.CreateResponse(HttpStatusCode.OK, res);
       //  return req.CreateResponse(HttpStatusCode.OK, selllang);
 }
@@ -178,9 +178,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
 public class Language
 {
-    public string langcode;
-    public string langname;
-    public int dictionarysize;
+    public string language_code;
+    public string language_name;
+    public int dictionary_size;
 }
 
 public class Response
@@ -188,6 +188,6 @@ public class Response
     public List<string> words;
     public String password;
     public Language language;
-    public int length;
-    public double entropy;
+    public int password_length;
+    public double password_entropy;
 }
