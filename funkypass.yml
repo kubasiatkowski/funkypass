@@ -68,7 +68,7 @@ paths:
         '200':
           description: Success operation
           schema:
-            $ref: "#"#/definitions/password"
+            $ref: "#/definitions/password"
       security:
         - apikeyQuery: []
   /api/GetLang:
