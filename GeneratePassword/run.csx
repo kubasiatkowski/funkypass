@@ -170,6 +170,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
       res.password = string.Join("", words.ToArray());
       res.language = selllang;
       res.entropy = dtempent;
+      res.length = curlen;
       return req.CreateResponse(HttpStatusCode.OK, res);
       //  return req.CreateResponse(HttpStatusCode.OK, selllang);
 }
@@ -187,5 +188,6 @@ public class Response
     public List<string> words;
     public String password;
     public Language language;
+    public int length;
     public double entropy;
 }

@@ -21,16 +21,19 @@ paths:
           description: Minimum password length
           required: false
           type: integer
+          default: 10 
         - name: lang
           in: query
-          description: Language
+          description: 'Language, list of languages /api/GetLang/get'
           required: false
           type: string
+          default: "Random"
         - name: asciionly
           in: query
           description: Remove diacritics
           required: false
           type: boolean
+          default: true
       description: Generates new random password based on selected dictionar
       responses:
         '200':
@@ -45,16 +48,19 @@ paths:
           description: Minimum password length
           required: false
           type: integer
+          default: 10
         - name: lang
           in: query
-          description: Language
+          description: 'Language, list of languages /api/GetLang/get'
           required: false
           type: string
+          default: "Random"
         - name: asciionly
           in: query
           description: Remove diacritics
           required: false
           type: boolean
+          default: true
       description: Generates new random password based on selected dictionary
       responses:
         '200':
@@ -64,9 +70,7 @@ paths:
   /api/GetLang:
     get:
       operationId: /api/GetLang/get
-      description: >-
-        Replace with Operation Object
-        #http://swagger.io/specification/#operationObject
+      description: Show all available languages
       responses:
         '200':
           description: Success operation
