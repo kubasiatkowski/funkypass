@@ -38,6 +38,8 @@ paths:
       responses:
         '200':
           description: Success operation
+          schema:
+            $ref: "#/definitions/password"
       security:
         - apikeyQuery: []
     post:
@@ -65,6 +67,8 @@ paths:
       responses:
         '200':
           description: Success operation
+          schema:
+            $ref: "#"#/definitions/password"
       security:
         - apikeyQuery: []
   /api/GetLang:
@@ -77,20 +81,41 @@ paths:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                language_code:
-                  type: string
-                  description: Language code.
-                language_name:
-                  type: string
-                  description: Description of the language.
-                dictionarysize:
-                  type: integer
-                  description: Number of words for the language
+              $ref: "#/definitions/language"
       security:
         - apikeyQuery: []
-definitions: {}
+definitions:
+  language:
+    type: object
+    properties:
+      language_code:
+        type: string
+        description: Language code
+      language_name:
+        type: string
+        description: Description of the language
+      dictionarysize:
+        type: integer
+        description: Number of words for the language
+  password:
+    type: object
+    properties:
+      password:
+        type: string
+        description: generated password
+      password_length:
+        type: integer
+        description: length of the generated password
+      password_entropy:
+        type: number
+        description: entropy of the generated password
+      words:
+        type: array
+        items:
+          type: string
+        description: components of the generated password
+      language:  
+        $ref: "#/definitions/language"
 securityDefinitions:
   apikeyQuery:
     type: apiKey
