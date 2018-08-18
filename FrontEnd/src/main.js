@@ -20,6 +20,7 @@ const apiUrl = 'https://funkypassdev.azurewebsites.net/api/GeneratePassword?lang
         checkForm: function (e) {
         e.preventDefault();
         this.success = null;
+        this.loading = true;
         this.errors = [];
         reqUrl = apiUrl + encodeURIComponent(this.lang) +
                  "&minlen=" + encodeURIComponent(this.length) +
