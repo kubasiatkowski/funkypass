@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!-- Vue.JS and Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <title>Funky password generator</title>
+  </head>
+  <body>
+    <div id="funkypass">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Funky password generator</h1>
+                <p class="lead">This tool will generate easy to remember funky password which you will never forget.</p>
+            </div>
+         </div>
+         <div class="card">
+                <div class="card-body">
+                    <form 
+                    @submit="checkForm"
+                    method="post">
+                    <div class="form-group">
+                        <label for="inputLang">Language</label>
+                        <select id="inputLang" class="form-control" v-model="lang">
+                            <option selected>Random</option>
+                            <option v-for="lang in langs">{{ lang.language_code }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLen">Minimum password length</label>
+                        <input type="number" class="form-control" id="inputLen" v-model="length" min=5 max=50>
+                    </div>
+                    <div class="form-group form-check">
+                        <input class="form-check-input" type="checkbox" id="asciionly" v-model="asciionly">
+                        <label class="form-check-label" for="asciionly">
+                            Use only ASCII characters
+                        </label>
+
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Generate password</button>
+                    </div>
+                    </form>
+                    <div class="alert alert-errors" role="alert" v-if="errors.length">
+                                <b>Errors:</b>
+                                <ul>
+                                <li v-for="error in errors">{{ error }}</li>
+                                </ul>
+                    </div>
+                </div>
+                </div>
+               
+
+
+            <div class="card" v-if="password">  
+                    <div class="card-header text-white bg-secondary">
+                            Your new password
+                          </div> 
+                <div class="card-body text-center">
+                        <form>
+                        <div class="form-group">
+                        <input v-on:dblclick="copyToClipboard"  v-on:click="copyToClipboard" 
+                        type="text" class="form-control form-control-lg" style="text-align:center; font-size:xx-large"
+                        v-model="password.password" id="generatedpass" readonly>
+                        </div>
+                        <div class="form-group">
+                        <button v-on:click="copyToClipboard" title="Copy to clipboard" class="btn btn-light small">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                        Copy to clipboard
+                    </button></div>  
+                </form>
+                <div class="alert alert-success" role="alert" v-if="success">
+                       <span> {{ success }} </span> 
+                      </div>
+                </div>
+              </div>
+            <div class="card" v-if="password"> 
+                    <div class="card-header">
+                            About your new password
+                          </div> 
+                    <div class="card-body"> 
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                <strong>Length</strong> {{ password.password_length }}</li>
+                                <li class="list-group-item">
+                                <strong>Entropy</strong> {{ password.password_entropy}}</li>
+                                <li class="list-group-item">
+                                <strong>Language</strong> {{ password.language.language_name  }}</li>
+                             </ul>    
+             </div>
+            </div>
+            <div class="card">
+                    <div class="card-header">
+                            Available languages
+                          </div> 
+                    <div class="card-body">
+                    <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">Language</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Dictionary size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="lang in langs">
+                                <th scope="row">{{ lang.language_code }}</th>
+                                <td>{{ lang.language_name }}</td>
+                                <td>{{ lang.dictionarysize }}</td>
+                                </tr>
+                                <tr >
+                                <th scope="row">Random</th>
+                                <td>One of the above</td>
+                                <td>??</td> 
+                                </tr>
+                            </tbody>
+                            </table>
+            </div>
+        </div>
+    </div>
+    <script src="src/main.js"></script>
+  </body>
+</html>
