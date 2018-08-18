@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json.schemastore.org/proxies",
+    "proxies": {
+        "docs/swagger.json": {
+            "matchCondition": {
+                "route": "docs/swagger.json",
+                "methods": [
+                    "GET"
+                ]
+            },
+            "backendUri": "https://funkypassdev.azurewebsites.net/admin/host/swagger?code=SvgjsKH7csaPYhuGQ2BO10talDfvUHnLCcPQLkvNZyhtDVsaaTGJSQ=="
+        }
+    }
+}
