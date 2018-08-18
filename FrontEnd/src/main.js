@@ -7,7 +7,7 @@ const apiUrl = 'https://funkypassdev.azurewebsites.net/api/GeneratePassword?lang
           langs: null,
           loading: true,
           lang: 'Random',
-          length: 14,
+          length: 10,
           asciionly: true,
           password: null,
           errors: [],
