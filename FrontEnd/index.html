@@ -22,7 +22,7 @@
                 <p class="lead">This tool will generate funky password which you will never forget.</p>
             </div>
          </div>
-         <div class="card mb-3">
+         <div class="card m-3">
                 <div class="card-body">
                     <form 
                     @submit="checkForm"
@@ -58,18 +58,26 @@
                 </div>
                 </div>
                
+                 <div class="card border-warning m-3" v-if="loading">
+                        <div class="card-body text-warning">
+                          <h5 class="card-title">Loading</h5>
+                          <p class="card-text">Please wait...</p>
+                        </div>
+                      </div>
 
-
-            <div class="card mb-3" v-if="password">  
+            <div class="card m-3" v-if="password">  
                     <div class="card-header text-white bg-secondary">
                             Your new password
                           </div> 
                 <div class="card-body text-center">
+                    <span class="display-4 text-primary" style="font-family:Courier New, Courier, monospace" v-on:dblclick="copyToClipboard">
+                        {{ password.password }}
+                    </span>
                         <form>
                         <div class="form-group">
                         <input v-on:dblclick="copyToClipboard"  
-                        type="text" class="form-control form-control-lg" style="text-align:center; font-size:xx-large; font-family: monospace;"
-                        v-model="password.password" id="generatedpass" readonly>
+                        type="text" class="form-control form-control-lg border-0 text-primary" style="text-align:center; font-family: monospace; background-color: transparent;"
+                        v-model="password.password" id="generatedpass" readonly hidden>
                         </div>
                         <div class="form-group">
                         <button v-on:click="copyToClipboard" title="Copy to clipboard" class="btn btn-light small">
@@ -82,7 +90,7 @@
                       </div>
                 </div>
               </div>
-            <div class="card mb-3" v-if="password"> 
+            <div class="card m-3" v-if="password"> 
                     <div class="card-header">
                             About your new password
                           </div> 
@@ -97,7 +105,7 @@
                              </ul>    
              </div>
             </div>
-            <div class="card mb-3">
+            <div class="card m-3">
                     <div class="card-header">
                             Available languages
                           </div> 
