@@ -8,7 +8,7 @@
                     "GET"
                 ]
             },
-            "backendUri": "https://funkypassdev.azurewebsites.net/admin/host/swagger?code=SvgjsKH7csaPYhuGQ2BO10talDfvUHnLCcPQLkvNZyhtDVsaaTGJSQ=="
+            "backendUri": "https://localhost/admin/host/swagger?code=SvgjsKH7csaPYhuGQ2BO10talDfvUHnLCcPQLkvNZyhtDVsaaTGJSQ=="
         }
     }
 }
