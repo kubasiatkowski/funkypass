@@ -24,7 +24,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         var sqlquery = @"SELECT [langcode]
                         ,[langname]
                         ,[maxid]
-                        FROM [dbo].[dictionaries]";
+                        FROM [dbo].[dictionaries]
+                        ORDER BY [langcode]";
     
         SqlCommand cmd = new SqlCommand(sqlquery, conn);
         SqlDataReader reader = cmd.ExecuteReader();
