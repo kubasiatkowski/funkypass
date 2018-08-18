@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    
+     
     <!-- Vue.JS and Axios -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -19,10 +19,10 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-4">Funky password generator</h1>
-                <p class="lead">This tool will generate easy to remember funky password which you will never forget.</p>
+                <p class="lead">This tool will generate funky password which you will never forget.</p>
             </div>
          </div>
-         <div class="card">
+         <div class="card mb-3">
                 <div class="card-body">
                     <form 
                     @submit="checkForm"
@@ -60,15 +60,15 @@
                
 
 
-            <div class="card" v-if="password">  
+            <div class="card mb-3" v-if="password">  
                     <div class="card-header text-white bg-secondary">
                             Your new password
                           </div> 
                 <div class="card-body text-center">
                         <form>
                         <div class="form-group">
-                        <input v-on:dblclick="copyToClipboard"  v-on:click="copyToClipboard" 
-                        type="text" class="form-control form-control-lg" style="text-align:center; font-size:xx-large"
+                        <input v-on:dblclick="copyToClipboard"  
+                        type="text" class="form-control form-control-lg" style="text-align:center; font-size:xx-large; font-family: monospace;"
                         v-model="password.password" id="generatedpass" readonly>
                         </div>
                         <div class="form-group">
@@ -82,7 +82,7 @@
                       </div>
                 </div>
               </div>
-            <div class="card" v-if="password"> 
+            <div class="card mb-3" v-if="password"> 
                     <div class="card-header">
                             About your new password
                           </div> 
@@ -97,7 +97,7 @@
                              </ul>    
              </div>
             </div>
-            <div class="card">
+            <div class="card mb-3">
                     <div class="card-header">
                             Available languages
                           </div> 

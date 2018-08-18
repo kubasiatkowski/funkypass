@@ -47,6 +47,9 @@ const apiUrl = 'https://funkypassdev.azurewebsites.net/api/GeneratePassword?lang
             try{
                 document.execCommand("copy");
                 this.success = "Password copied to clipboard."
+                console.log(e)
+                if (window.getSelection) {window.getSelection().removeAllRanges();}
+                else if (document.selection) {document.selection.empty();}
                 console.log(this.success)
             }
             catch (error) {
