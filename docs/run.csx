@@ -19,7 +19,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     var reader = File.OpenText(filepath);
     var stream = await reader.ReadToEndAsync().ConfigureAwait(false);
-    return req.CreateResponse(HttpStatusCode.OK, stream,"application/json");
+    var deserialiser = new DeserializerBuilder().Build();
+    var deserialised = deserialiser.Deserialize<dynamic>(stream);
+    return req.CreateResponse(HttpStatusCode.OK, (object)deserialised,"application/json");
 
 }
 
