@@ -2,9 +2,7 @@
 using System.Net;
 using System.Configuration;
 
-public static class GetSwaggerHttpTrigger
-{
-  public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string version, TraceWriter log)
+public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string version, TraceWriter log)
   {
     var wwwroot = Environment.GetEnvironmentVariable("WEBROOT_PATH");
 
@@ -19,5 +17,4 @@ public static class GetSwaggerHttpTrigger
     var stream = await reader.ReadToEndAsync().ConfigureAwait(false);
     return req.CreateResponse(HttpStatusCode.OK, stream);
 
-  }
 }
