@@ -19,7 +19,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     var reader = File.OpenText(filepath);
     var stream = await reader.ReadToEndAsync().ConfigureAwait(false);
-    return req.CreateResponse(HttpStatusCode.OK, stream);
+    return req.CreateResponse(HttpStatusCode.OK, stream,"application/json");
 
 }
 
