@@ -6,10 +6,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var wwwroot = Environment.GetEnvironmentVariable("WEBROOT_PATH");
 
-    var filepath = $"{wwwroot}\\.azurefunctions\\swagger\\swagger.json";
+    var filepath = $".azurefunctions\\swagger\\swagger.json";
     log.Info($"{filepath}");
     if (!File.Exists(filepath))
     {
+      log.Info($"File not found");
       return req.CreateResponse(HttpStatusCode.NotFound);
     }
 
