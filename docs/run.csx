@@ -17,11 +17,12 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
       return req.CreateResponse(HttpStatusCode.NotFound);
     }
 
-    var reader = File.OpenText(filepath);
-    var stream = await reader.ReadToEndAsync().ConfigureAwait(false);
-    var deserialiser = new DeserializerBuilder().Build();
-    var deserialised = deserialiser.Deserialize<dynamic>(stream);
-    return req.CreateResponse(HttpStatusCode.OK, (object)deserialised,"application/json");
+        var response = new HttpResponseMessage(HttpStatusCode.OK);
+        var stream = new FileStream(filePath, FileMode.Open);
+        response.Content = new StreamContent(stream);
+        response.Content.Headers.ContentType = 
+            new MediaTypeHeaderValue(GetMimeType(filePath));
+        return response;
 
 }
 
