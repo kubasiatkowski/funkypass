@@ -1,3 +1,4 @@
+
 using System.Net;
 using System.Configuration;
 
@@ -14,10 +15,9 @@ public static class GetSwaggerHttpTrigger
       return req.CreateResponse(HttpStatusCode.NotFound);
     }
 
-    using (var reader = File.OpenText(filepath))
-    {
-      var stream = await reader.ReadToEndAsync().ConfigureAwait(false);
-      return req.CreateResponse(HttpStatusCode.OK, stream);
-    }
+    var reader = File.OpenText(filepath);
+    var stream = await reader.ReadToEndAsync().ConfigureAwait(false);
+    return req.CreateResponse(HttpStatusCode.OK, stream);
+
   }
 }
