@@ -1,0 +1,11 @@
+{
+  "frameworks": {
+    "net46":{
+      "dependencies": {
+        "Microsoft.Azure.Services.AppAuthentication":"1.0.0-preview",
+        "System.Data.SqlClient":"4.4.0",
+        "Diacritics":"1.0.7"
+      }
+    }
+   }
+}
