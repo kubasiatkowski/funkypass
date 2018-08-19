@@ -7,6 +7,7 @@ public static HttpResponseMessage Run(HttpRequestMessage req, TraceWriter log)
 
     var wwwroot = Environment.GetEnvironmentVariable("WEBROOT_PATH");
     var filepath = $"{wwwroot}\\.azurefunctions\\swagger\\swagger.json";
+    log.Info($"{filepath}");
     if (!File.Exists(filepath))
     {
         return req.CreateResponse(HttpStatusCode.NotFound);
