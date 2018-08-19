@@ -20,8 +20,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         var response = new HttpResponseMessage(HttpStatusCode.OK);
         var stream = new FileStream(filepath, FileMode.Open);
         response.Content = new StreamContent(stream);
-        response.Content.Headers.ContentType = 
-            new MediaTypeHeaderValue(GetMimeType(filePath));
+        response.Content.Headers.ContentType = "application/json";
         return response;
 
 }
