@@ -1,10 +1,10 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "funkypass.azurewebsites.net",
+    "title": "funkypass.interkreacja.pl",
     "version": "1.0.0"
   },
-  "host": "funkypass.azurewebsites.net",
+  "host": "funkypass.interkreacja.pl",
   "basePath": "/",
   "schemes": [
     "https",
