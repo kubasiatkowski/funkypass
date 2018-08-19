@@ -1,4 +1,4 @@
-const apiUrl = 'https://funkypassdev.azurewebsites.net/api/GeneratePassword?lang=';
+const apiUrl = 'https://funkypass.azurewebsites.net/api/GeneratePassword?lang=';
 
   new Vue({
     el: '#funkypass',

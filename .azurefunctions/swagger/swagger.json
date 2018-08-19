@@ -1,10 +1,10 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "funkypassdev.azurewebsites.net",
+    "title": "funkypass.azurewebsites.net",
     "version": "1.0.0"
   },
-  "host": "funkypassdev.azurewebsites.net",
+  "host": "funkypass.azurewebsites.net",
   "basePath": "/",
   "schemes": [
     "https",
