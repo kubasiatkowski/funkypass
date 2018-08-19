@@ -1,5 +1,5 @@
-
-
+using System.Net;
+using System.Configuration;
 
 public static class GetSwaggerHttpTrigger
 {
