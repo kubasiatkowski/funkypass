@@ -7,7 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-     
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">  
+
     <!-- Vue.JS and Axios -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -15,39 +16,28 @@
     <title>Funky password generator</title>
   </head>
   <body>
-    <div id="funkypass">
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                    <a class="navbar-brand" href="#">Navbar</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
-              
-                    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                      <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link disabled" href="#">Disabled</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                          <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                          </div>
-                        </li>
-                      </ul>
-                      <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                      </form>
-                    </div>
-                  </nav>
+        <header>
+                <!-- Fixed navbar -->
+                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                  <a class="navbar-brand" href="#top">Funkypass</a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                      <li class="nav-item">
+                        <a class="nav-link" href="#About">About</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#API">API</a>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                </nav>
+              </header>
+    <main id="funkypass" role="main" class="container">
+          
               
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
@@ -55,7 +45,7 @@
                 <p class="lead">This tool will generate funky password which you will never forget.</p>
             </div>
          </div>
-         <div class="card m-3">
+         <div class="card mb-3">
                 <div class="card-body">
                     <form 
                     @submit="checkForm"
@@ -91,14 +81,14 @@
                 </div>
                 </div>
                
-                 <div class="card border-warning m-3" v-if="loading">
+                 <div class="card border-warning mb-3" v-if="loading">
                         <div class="card-body text-warning">
                           <h5 class="card-title">We are getting there</h5>
                           <p class="card-text">Please wait...</p>
                         </div>
                       </div>
 
-            <div class="card m-3" v-if="password">  
+            <div class="card mb-3" v-if="password">  
                     <div class="card-header text-white bg-secondary">
                             Your new password
                           </div> 
@@ -123,7 +113,7 @@
                       </div>
                 </div>
               </div>
-            <div class="card m-3" v-if="password"> 
+            <div class="card mb-3" v-if="password"> 
                     <div class="card-header">
                             About your new password
                           </div> 
@@ -138,7 +128,7 @@
                              </ul>    
              </div>
             </div>
-            <div class="card m-3">
+            <div class="card mb-3">
                     <div class="card-header">
                             Available languages
                           </div> 
@@ -166,7 +156,57 @@
                             </table>
             </div>
         </div>
-    </div>
+        <section id="About" style="padding-top:60px; margin-top:-60px;">
+        <div class="card mb-3">
+            <div class="card-header">
+                About
+            </div> 
+            <div class="card-body">
+                <span>We generate passwords you will never forget</span> 
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat non purus at eleifend. Vivamus tellus lacus, efficitur iaculis mauris sit amet, commodo cursus dui. Vivamus vel urna blandit, facilisis ex vitae, fermentum mauris. Nam a efficitur justo, a semper magna. Nunc varius egestas varius. In pretium venenatis condimentum. In et malesuada ipsum.
+</span><span>
+Duis viverra sem at purus pellentesque rutrum ac non eros. Nullam nulla nulla, faucibus sit amet metus non, facilisis congue purus. Fusce posuere ipsum ut arcu sagittis varius. Vestibulum iaculis justo quam. Nulla faucibus vulputate orci in maximus. Nunc molestie leo ut velit porta, at sagittis dui maximus. Duis a ligula et lectus condimentum aliquam. Aenean facilisis, urna eu cursus facilisis, sem ante placerat nulla, ac bibendum lectus leo in odio. Donec suscipit dolor quis elit volutpat, et ultrices diam scelerisque. Suspendisse egestas turpis sit amet mi blandit finibus euismod elementum purus.
+</span><span>
+Aenean consequat eros nec metus sagittis pellentesque. Mauris posuere massa et scelerisque bibendum. Aenean a eleifend arcu. Suspendisse at tristique mi. Fusce efficitur viverra elit, sed volutpat velit placerat eu. Quisque eget nisi mollis, consectetur mi ut, ultricies dui. Aliquam tristique metus quis metus suscipit, quis rutrum tortor posuere. Aliquam turpis lorem, sagittis rutrum finibus ultricies, cursus eget erat.
+</span><span>
+Proin nec ligula sit amet ex pharetra sagittis eget nec augue. Fusce tempor fringilla urna, sit amet varius elit vehicula ut. In hac habitasse platea dictumst. Quisque non ligula magna. Nam auctor dapibus dui et mollis. Fusce gravida rutrum condimentum. Donec vel interdum metus. Integer auctor bibendum turpis. Phasellus a tortor semper, varius tellus ac, vulputate dui. Phasellus auctor luctus dui, id varius diam tincidunt sit amet. Fusce libero dui, consequat sit amet sem ut, pulvinar sollicitudin augue.
+</span><span>
+Sed at leo diam. Vivamus finibus lorem id magna cursus, interdum dapibus ipsum volutpat. Integer aliquet nisl quis tristique vestibulum. Sed a molestie lacus. Nunc rutrum nibh velit, quis mollis arcu vestibulum sit amet. Aenean mattis eget lorem eget pulvinar. Integer augue mi, semper vel posuere vel, hendrerit pulvinar nunc. Fusce at egestas enim. Aenean et turpis ligula. Nullam pellentesque dapibus accumsan. Aenean eleifend ipsum mi, vitae feugiat eros iaculis sed. Morbi iaculis odio non ipsum dapibus pellentesque.   
+ </span>           </div>
+        </div>
+        </section>
+
+        <section id="API" style="padding-top:60px; margin-top:-60px;">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        API Access
+                    </div> 
+                    <div class="card-body">
+                        <span>We generate passwords you will never forget</span> 
+                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat non purus at eleifend. Vivamus tellus lacus, efficitur iaculis mauris sit amet, commodo cursus dui. Vivamus vel urna blandit, facilisis ex vitae, fermentum mauris. Nam a efficitur justo, a semper magna. Nunc varius egestas varius. In pretium venenatis condimentum. In et malesuada ipsum.
+        </span><span>
+        Duis viverra sem at purus pellentesque rutrum ac non eros. Nullam nulla nulla, faucibus sit amet metus non, facilisis congue purus. Fusce posuere ipsum ut arcu sagittis varius. Vestibulum iaculis justo quam. Nulla faucibus vulputate orci in maximus. Nunc molestie leo ut velit porta, at sagittis dui maximus. Duis a ligula et lectus condimentum aliquam. Aenean facilisis, urna eu cursus facilisis, sem ante placerat nulla, ac bibendum lectus leo in odio. Donec suscipit dolor quis elit volutpat, et ultrices diam scelerisque. Suspendisse egestas turpis sit amet mi blandit finibus euismod elementum purus.
+        </span><span>
+        Aenean consequat eros nec metus sagittis pellentesque. Mauris posuere massa et scelerisque bibendum. Aenean a eleifend arcu. Suspendisse at tristique mi. Fusce efficitur viverra elit, sed volutpat velit placerat eu. Quisque eget nisi mollis, consectetur mi ut, ultricies dui. Aliquam tristique metus quis metus suscipit, quis rutrum tortor posuere. Aliquam turpis lorem, sagittis rutrum finibus ultricies, cursus eget erat.
+        </span><span>
+        Proin nec ligula sit amet ex pharetra sagittis eget nec augue. Fusce tempor fringilla urna, sit amet varius elit vehicula ut. In hac habitasse platea dictumst. Quisque non ligula magna. Nam auctor dapibus dui et mollis. Fusce gravida rutrum condimentum. Donec vel interdum metus. Integer auctor bibendum turpis. Phasellus a tortor semper, varius tellus ac, vulputate dui. Phasellus auctor luctus dui, id varius diam tincidunt sit amet. Fusce libero dui, consequat sit amet sem ut, pulvinar sollicitudin augue.
+        </span><span>
+        Sed at leo diam. Vivamus finibus lorem id magna cursus, interdum dapibus ipsum volutpat. Integer aliquet nisl quis tristique vestibulum. Sed a molestie lacus. Nunc rutrum nibh velit, quis mollis arcu vestibulum sit amet. Aenean mattis eget lorem eget pulvinar. Integer augue mi, semper vel posuere vel, hendrerit pulvinar nunc. Fusce at egestas enim. Aenean et turpis ligula. Nullam pellentesque dapibus accumsan. Aenean eleifend ipsum mi, vitae feugiat eros iaculis sed. Morbi iaculis odio non ipsum dapibus pellentesque.   
+         </span>           </div>
+                </div>
+                </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">&copy; <a href="https://interkreacja.pl" target="_blank">interkreacja.pl</a>. Project available at <a href="https://github.com/kubasiatkowski/funkypass" target="_blank">GitHub</a> under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a></span>
+        </div>
+    </footer>
     <script src="src/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
   </body>
 </html>
