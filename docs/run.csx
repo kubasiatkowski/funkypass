@@ -4,7 +4,9 @@ using System.Configuration;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
-    var wwwroot = Environment.GetEnvironmentVariable("WEBROOT_PATH");
+    log.Info (Environment.GetEnvironmentVariable("WEBROOT_PATH"));
+    log.Info (Environment.GetEnvironmentVariable("HOME"));
+
 
     var filepath = $".azurefunctions\\swagger\\swagger.json";
     log.Info($"{filepath}");
