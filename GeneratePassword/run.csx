@@ -98,7 +98,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         languages.Add(l);
         log.Info($"{l}");
     }
-
+    reader.Close();
 
     Language selllang = new Language();
     //var selectedlanguage = 
@@ -117,9 +117,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
     double dtempent = 0;
-   /* string sqlquery;
-    SqlCommand cmd;
-    SqlDataReader reader;*/
+    /* string sqlquery;
+     SqlCommand cmd;
+     SqlDataReader reader;*/
 
     while (curlen < minlen)
     {
@@ -156,7 +156,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             curlen += (reader.GetString(0)).Length;
             dtempent += Math.Log(selllang.dictionary_size * 3, 2);
         }
-
+        reader.Close();
         words.Add(((char)rnd.Next(33, 64)).ToString());
         dtempent += Math.Log(31, 2);
         curlen++;
