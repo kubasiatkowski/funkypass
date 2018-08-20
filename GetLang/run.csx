@@ -8,15 +8,15 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     log.Info("C# HTTP trigger function processed a request.");
 
-     var tokenProvider = new AzureServiceTokenProvider();
-     string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
-     log.Info($"accessToken: {accessToken}");
-
-
-    var connStr  = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
+    //get access token and connect to SQL
+    var tokenProvider = new AzureServiceTokenProvider();
+    string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
+    log.Info($"accessToken: {accessToken}");
+    var connStr = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
     log.Info($"connectionString: {connStr}");
     var languages = new List<Language>();
 
+    //get list of available languages
     using (SqlConnection conn = new SqlConnection(connStr))
     {
         conn.AccessToken = accessToken;
@@ -26,33 +26,25 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
                         ,[maxid]
                         FROM [dbo].[dictionaries]
                         ORDER BY [langcode]";
-    
+
         SqlCommand cmd = new SqlCommand(sqlquery, conn);
         SqlDataReader reader = cmd.ExecuteReader();
-        ; 
+        ;
         while (reader.Read())
         {
             string sqlread = reader.GetString(0);
             log.Info($"{sqlread}");
-            //languages.Add(sqlread);
             Language l = new Language();
             l.language_code = reader.GetString(0);
             l.language_name = reader.GetString(1);
             l.dictionarysize = reader.GetInt32(2);
             languages.Add(l);
-        }         
+        }
     }
 
 
-        //Test t = new Test();
-        //t.languages = languages;
-        return req.CreateResponse(HttpStatusCode.OK, languages); //"Hello " + name)
-}
-
-
-public class Test
-{
-    public  List<Language> languages;
+    //return the list
+    return req.CreateResponse(HttpStatusCode.OK, languages);
 }
 
 public class Language
