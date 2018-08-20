@@ -5,14 +5,11 @@ using System.Data.SqlClient;
 using System;
 using System.Collections.ObjectModel;
 using Diacritics.Extensions;
-//using System.Web.Configuration;
+
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
-    //int minlen = 14;
-    //int maxlen = 20;
-
 
     // parse query parameter
     string lang = req.GetQueryNameValuePairs()
@@ -22,17 +19,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     int.TryParse(req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "minlen", true) == 0)
         .Value, out minlen);
-    // int maxlen;
-    // int.TryParse(req.GetQueryNameValuePairs()
-    //     .FirstOrDefault(q => string.Compare(q.Key, "maxlen", true) == 0)
-    //     .Value, out maxlen); 
     string sasciionly = req.GetQueryNameValuePairs()
         .FirstOrDefault(q => string.Compare(q.Key, "asciionly", true) == 0)
         .Value;
-
-
-
-
 
     IEnumerable<KeyValuePair<string, string>> values = req.GetQueryNameValuePairs();
 
@@ -41,43 +30,40 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     {
         log.Info($"Parameter: {val.Key}\nValue: {val.Value} \n Type: {val.GetType()} \n");
     }
+
     // Get request body
     dynamic data = await req.Content.ReadAsAsync<object>();
 
-    // Set name to query string or body data
+    // Get variables from query string or body data
     lang = (lang ?? data?.lang) ?? "Random";
     sasciionly = (sasciionly ?? data?.asciionly) ?? "True";
 
     if (minlen == 0)
-        minlen = data?.minlen ?? 14;
-    // if (maxlen==0)    
-    //     maxlen = data?.maxlen ?? 20; 
+        minlen = data?.minlen ?? 10;
 
     bool asciionly = true;
     bool.TryParse(sasciionly, out asciionly);
 
-
+    //log parsed parameters
     log.Info($"Language {lang}");
     log.Info($"Minlen {minlen}");
-    //  log.Info($"Maxlen {maxlen}");
     log.Info($"ASCIIonly {asciionly}");
     log.Info($"SASCIIonly {sasciionly}");
+
+    //set initial password length
     int curlen = 0;
     Random rnd = new Random();
 
+    //get access token and connect to SQL
     var tokenProvider = new AzureServiceTokenProvider();
     string accessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
-    //log.Info($"accessToken: {accessToken}");
-
-
     var connStr = ConfigurationManager.ConnectionStrings["connstring"].ConnectionString;
-    //log.Info($"connectionString: {connStr}");
-    var languages = new List<Language>();
-
     SqlConnection conn = new SqlConnection(connStr);
-
     conn.AccessToken = accessToken;
     conn.Open();
+
+    //get list of languages from the database
+    var languages = new List<Language>();
     var sqlquery = @"SELECT [langcode]
                         ,[langname]
                         ,[maxid]
@@ -88,9 +74,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     while (reader.Read())
     {
-        // string sqlread = reader.GetString(0);
-        // log.Info($"{sqlread}");
-        //languages.Add(sqlread);
         Language l = new Language();
         l.language_code = reader.GetString(0);
         l.language_name = reader.GetString(1);
@@ -100,42 +83,39 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     }
     reader.Close();
 
+    //select language
     Language selllang = new Language();
-    //var selectedlanguage = 
 
     var result = from lan in languages
                  where lan.language_code == lang
                  select lan;
     selllang = result.FirstOrDefault();
 
-
+    //if language doesn't exist select random
     if (selllang == null || lang == "Random")
     {
         int r = rnd.Next(languages.Count);
         selllang = languages[r];
     }
-    //log.Info($"{selectedlanguage.langname}");
-    var words = new List<string>();
-    double dtempent = 0;
-    /* string sqlquery;
-     SqlCommand cmd;
-     SqlDataReader reader;*/
+    log.Info($"{selllang.language_code}");
 
+    //individual password components
+    var words = new List<string>();
+
+    //entropy counter
+    double dtempent = 0;
+
+    //start generating password
     while (curlen < minlen)
     {
-
-
         int id = rnd.Next(selllang.dictionary_size);
-
         sqlquery = "SELECT TOP 1 word FROM words_" + selllang.language_code + " WHERE id >" + id;
         log.Info($"{sqlquery}");
         cmd = new SqlCommand(sqlquery, conn);
         reader = cmd.ExecuteReader();
-
         while (reader.Read())
         {
             string sqlread = reader.GetString(0);
-
             int capitalize = rnd.Next(0, 4);
             switch (capitalize)
             {
@@ -166,6 +146,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         curlen += number.Length;
 
     }
+
+    //build and return response
     Response res = new Response();
     res.words = words;
     res.password = string.Join("", words.ToArray());
@@ -174,7 +156,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     res.password_length = curlen;
     conn.Dispose();
     return req.CreateResponse(HttpStatusCode.OK, res);
-    //  return req.CreateResponse(HttpStatusCode.OK, selllang);
 }
 
 
