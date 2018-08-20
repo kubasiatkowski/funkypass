@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json.schemastore.org/proxies",
+    "proxies": {
+        "index.html": {
+            "matchCondition": {
+                "route": "index.html"
+            },
+            "backendUri": "https://funkypass.z6.web.core.windows.net/"
+        },
+        "src/main.js": {
+            "matchCondition": {
+                "route": "src/main.js"
+            },
+            "backendUri": "https://funkypass.z6.web.core.windows.net/src/main.js"
+        },
+        "docs/swagger.json": {
+            "matchCondition": {
+                "route": "docs/swagger.json"
+            },
+            "backendUri": "https://funkypass.z6.web.core.windows.net/docs/swagger.json"
+        }
+    }
+}
