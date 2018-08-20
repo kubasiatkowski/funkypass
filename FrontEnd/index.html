@@ -1,95 +1,102 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!--<link href="css/sticky-footer-navbar.css" rel="stylesheet"> --> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <!--<link href="css/sticky-footer-navbar.css" rel="stylesheet"> -->
 
     <!-- Vue.JS and Axios -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <style>
-            /* Sticky footer styles
+        /* Sticky footer styles
         -------------------------------------------------- */
+
         html {
             position: relative;
             min-height: 100%;
         }
+
         body {
             /* Margin bottom by footer height */
             margin-bottom: 60px;
         }
+
         .footer {
             position: absolute;
             bottom: 0;
             width: 100%;
             /* Set the fixed height of the footer here */
             height: 60px;
-            line-height: 60px; /* Vertically center the text there */
+            line-height: 60px;
+            /* Vertically center the text there */
             background-color: #f5f5f5;
         }
-        
-        
+
+
         /* Custom page CSS
         -------------------------------------------------- */
+
         /* Not required for template or sticky footer method. */
-        
-        body > .container {
+
+        body>.container {
             padding: 60px 15px 0;
         }
-        
-        .footer > .container {
+
+        .footer>.container {
             padding-right: 15px;
             padding-left: 15px;
         }
-        
+
         code {
             font-size: 80%;
         }
     </style>
 
     <title>Funky password generator</title>
-  </head>
-  <body>
-        <header>
-                <!-- Fixed navbar -->
-                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                  <a class="navbar-brand" href="#top">Funkypass</a>
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item">
+</head>
+
+<body>
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#top">Funkypass</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
                         <a class="nav-link" href="#About">About</a>
-                      </li>
-                      <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#API">API</a>
-                      </li>
-                      
-                    </ul>
-                  </div>
-                </nav>
-              </header>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
     <main id="funkypass" role="main" class="container">
-          
-              
+
+
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-4">Funky password generator</h1>
                 <p class="lead">This tool will generate funky password which you will never forget.</p>
             </div>
-         </div>
-         <div class="card mb-3">
-                <div class="card-body">
-                    <form 
-                    @submit="checkForm"
-                    method="post">
+        </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <form @submit="checkForm" method="post">
                     <div class="form-group">
                         <label for="inputLang">Language</label>
                         <select id="inputLang" class="form-control" v-model="lang">
@@ -111,132 +118,185 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Generate password</button>
                     </div>
-                    </form>
-                    <div class="alert alert-errors" role="alert" v-if="errors.length">
-                                <b>Errors:</b>
-                                <ul>
-                                <li v-for="error in errors">{{ error }}</li>
-                                </ul>
-                    </div>
+                </form>
+                <div class="alert alert-errors" role="alert" v-if="errors.length">
+                    <b>Errors:</b>
+                    <ul>
+                        <li v-for="error in errors">{{ error }}</li>
+                    </ul>
                 </div>
-                </div>
-               
-                 <div class="card border-warning mb-3" v-if="loading">
-                        <div class="card-body text-warning">
-                          <h5 class="card-title">We are getting there</h5>
-                          <p class="card-text">Please wait...</p>
-                        </div>
-                      </div>
+            </div>
+        </div>
 
-            <div class="card mb-3" v-if="password">  
-                    <div class="card-header text-white bg-secondary">
-                            Your new password
-                          </div> 
-                <div class="card-body text-center">
-                    <span class="display-4 text-primary" style="font-family:Courier New, Courier, monospace" v-on:dblclick="copyToClipboard">
-                        {{ password.password }}
-                    </span>
-                        <form>
-                        <div class="form-group">
-                        <input v-on:dblclick="copyToClipboard"  
-                        type="text" class="form-control form-control-lg border-0 text-primary" style="text-align:center; font-family: monospace; background-color: transparent;"
-                        v-model="password.password" id="generatedpass" readonly hidden>
-                        </div>
-                        <div class="form-group">
+        <div class="card border-warning mb-3" v-if="loading">
+            <div class="card-body text-warning">
+                <h5 class="card-title">We are getting there</h5>
+                <p class="card-text">Please wait...</p>
+            </div>
+        </div>
+
+        <div class="card mb-3" v-if="password">
+            <div class="card-header text-white bg-secondary">
+                Your new password
+            </div>
+            <div class="card-body text-center">
+                <span class="display-4 text-primary" style="font-family:Courier New, Courier, monospace" v-on:dblclick="copyToClipboard">
+                    {{ password.password }}
+                </span>
+                <form>
+                    <div class="form-group">
+                        <input v-on:dblclick="copyToClipboard" type="text" class="form-control form-control-lg border-0 text-primary" style="text-align:center; font-family: monospace; background-color: transparent;"
+                            v-model="password.password" id="generatedpass" readonly hidden>
+                    </div>
+                    <div class="form-group">
                         <button v-on:click="copyToClipboard" title="Copy to clipboard" class="btn btn-light small">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                        Copy to clipboard
-                    </button></div>  
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z"
+                                />
+                            </svg>
+                            Copy to clipboard
+                        </button>
+                    </div>
                 </form>
                 <div class="alert alert-success" role="alert" v-if="success">
-                       <span> {{ success }} </span> 
-                      </div>
+                    <span> {{ success }} </span>
                 </div>
-              </div>
-            <div class="card mb-3" v-if="password"> 
-                    <div class="card-header">
-                            About your new password
-                          </div> 
-                    <div class="card-body"> 
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                <strong>Length</strong> {{ password.password_length }}</li>
-                                <li class="list-group-item">
-                                <strong>Entropy</strong> {{ password.password_entropy}}</li>
-                                <li class="list-group-item">
-                                <strong>Language</strong> {{ password.language.language_name  }}</li>
-                             </ul>    
-             </div>
             </div>
-            <div class="card mb-3">
-                    <div class="card-header">
-                            Available languages
-                          </div> 
-                    <div class="card-body">
-                    <table class="table">
-                            <thead>
-                                <tr>
-                                <th scope="col">Language</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Dictionary size</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="lang in langs">
-                                <th scope="row">{{ lang.language_code }}</th>
-                                <td>{{ lang.language_name }}</td>
-                                <td>{{ lang.dictionarysize }}</td>
-                                </tr>
-                                <tr >
-                                <th scope="row">Random</th>
-                                <td>One of the above</td>
-                                <td>??</td> 
-                                </tr>
-                            </tbody>
-                            </table>
+        </div>
+        <div class="card mb-3" v-if="password">
+            <div class="card-header">
+                About your new password
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Length</strong> {{ password.password_length }}</li>
+                    <li class="list-group-item">
+                        <strong>Entropy</strong> {{ password.password_entropy}}</li>
+                    <li class="list-group-item">
+                        <strong>Language</strong> {{ password.language.language_name }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">
+                Available languages
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Language</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Dictionary size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="lang in langs">
+                            <th scope="row">{{ lang.language_code }}</th>
+                            <td>{{ lang.language_name }}</td>
+                            <td>{{ lang.dictionarysize }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Random</th>
+                            <td>One of the above</td>
+                            <td>??</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <section id="About" style="padding-top:60px; margin-top:-60px;">
-        <div class="card mb-3">
-            <div class="card-header">
-                About
-            </div> 
-            <div class="card-body">
-            <p>Do you remember old times when people said password must be random, long and contain weird characters? This principle led to crazy things like s/N4Qf5$d+O6 and forced you to keyboard yoga every time you logged in. On top of that for a long time, we were told by security experts that passwords must be completely random and changed often which instructed our brains to remember completely unnatural patterns, trained our muscle memory or we simply used a lot of sticky notes.</p>
-            <p>Hopefully, passwords will die sooner or later and will be replaced by biometrics or hardware devices. But we are still not there and we have to cope with typing before passwords are obsolete. This generator will help you to create nice passphrases which are easy to remember, easy to type and, according to <a href="https://pages.nist.gov/800-63-3/sp800-63b.html" target="_blank">NIST</a>, are even more secure than random passwords.</p> 
-            <p>Just pick up your favorite language, hit the button and enjoy your new password. Please be aware that our dictionaries contain almost all words from available languages and some passphrases may sound offensive. If you don’t like your password, just generate a new one. Hopefully, it will be better.</p>
-            <p>The website is running as a nonprofit open source project and is <strong>delivered as is</strong>. We do not track users, do not store cookies or keep any of your personal data.</p>
-            </div> 
-            <div class="card-body">     
-            <p>Questions, problems, missing languages?</p> 
-            <p>Please raise an issue in our GitHub project <a href="https://github.com/kubasiatkowski/funkypass/issues" target="_blank">https://github.com/kubasiatkowski/funkypass/issues</a></p>
+            <div class="card mb-3">
+                <div class="card-header">
+                    About
+                </div>
+                <div class="card-body">
+                    <p>Do you remember old times when people said password must be random, long and contain weird characters?
+                        This principle led to crazy things like s/N4Qf5$d+O6 and forced you to keyboard yoga every time you
+                        logged in. On top of that for a long time, we were told by security experts that passwords must be
+                        completely random and changed often which instructed our brains to remember completely unnatural
+                        patterns, trained our muscle memory or we simply used a lot of sticky notes.</p>
+                    <p>Hopefully, passwords will die sooner or later and will be replaced by biometrics or hardware devices.
+                        But we are still not there and we have to cope with typing before passwords are obsolete. This generator
+                        will help you to create nice passphrases which are easy to remember, easy to type and, according
+                        to
+                        <a href="https://pages.nist.gov/800-63-3/sp800-63b.html" target="_blank">NIST</a>, are even more secure than random passwords.</p>
+                    <p>Just pick up your favorite language, hit the button and enjoy your new password. Please be aware that
+                        our dictionaries contain almost all words from available languages and some passphrases may sound
+                        offensive. If you don’t like your password, just generate a new one. Hopefully, it will be better.</p>
+                    <p>The website is running as a nonprofit open source project and is
+                        <strong>delivered as is</strong>. We do not track users, do not store cookies or keep any of your personal
+                        data.</p>
+                </div>
+                <div class="card-body">
+                    <p>Questions, problems, missing languages?</p>
+                    <p>Please raise an issue in our GitHub project
+                        <a href="https://github.com/kubasiatkowski/funkypass/issues"
+                            target="_blank">https://github.com/kubasiatkowski/funkypass/issues</a>
+                    </p>
+                </div>
             </div>
-        </div>
         </section>
 
         <section id="API" style="padding-top:60px; margin-top:-60px;">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        API Access
-                    </div> 
-                    <div class="card-body">
-                         
-                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat non purus at eleifend. Vivamus tellus lacus, efficitur iaculis mauris sit amet, commodo cursus dui. Vivamus vel urna blandit, facilisis ex vitae, fermentum mauris. Nam a efficitur justo, a semper magna. Nunc varius egestas varius. In pretium venenatis condimentum. In et malesuada ipsum.</span>
-                   </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    API Access
                 </div>
-                </section>
+                <div class="card-body">
+                    <p>Do you want to integrate our passwords with your user provisioning process? Or maybe you hate GUI and
+                        don’t want to leave a console to generate a nice password? It’s super easy, just call our REST API.
+                        The description is available
+                        <a href="docs/swagger.json" target="_blank">here</a> and on
+                        <a href="https://app.swaggerhub.com/apis/interkreacja/funkypass-interkreacja_pl/1.0.0"
+                            target="_blank">SwaggerHub</a>.</p>
+                    <p>You can find examples on
+                        <a href="https://github.com/kubasiatkowski/funkypass/tree/master/Examples/"
+                            target="_blank">GitHub</a>. </p>
+
+                    <div class="border bg-light text-dark">
+                        <p>Generate password in PowerShell</p>
+                    </div>
+                    <div class="bg-dark text-white">
+                        <pre><code class="text-white">
+$response = Invoke-RestMethod -Uri "https://funkypass.interkreacja.pl/api/GeneratePassword?lang=la"
+$funkypassword = $response.password
+Write-Host $funkypassword
+                        </code></pre>
+                    </div>
+                    <div class="border bg-light text-dark">
+                        <p>Generate password in bash</p>
+                    </div>
+                    <div class="bg-dark text-white">
+                        <pre><code class="text-white">
+curl https://funkypass.interkreacja.pl/api/GeneratePassword?lang=la -silent | sed -n -e 's/^.*password":"//p' | cut -d'"' -f1
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
         <div class="container">
-            <span class="text-muted">&copy; <a href="https://interkreacja.pl" target="_blank">interkreacja.pl</a>. Project available at <a href="https://github.com/kubasiatkowski/funkypass" target="_blank">GitHub</a> under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a></span>
+            <span class="text-muted">&copy;
+                <a href="https://interkreacja.pl" target="_blank">interkreacja.pl</a>. Project available at
+                <a href="https://github.com/kubasiatkowski/funkypass" target="_blank">GitHub</a> under
+                <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>
+            </span>
         </div>
     </footer>
     <script src="src/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 
 
-  </body>
+</body>
+
 </html>
