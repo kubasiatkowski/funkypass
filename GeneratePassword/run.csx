@@ -117,9 +117,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
     double dtempent = 0;
-    string sqlquery;
+   /* string sqlquery;
     SqlCommand cmd;
-    SqlDataReader reader;
+    SqlDataReader reader;*/
 
     while (curlen < minlen)
     {
