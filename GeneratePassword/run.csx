@@ -117,16 +117,20 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     //log.Info($"{selectedlanguage.langname}");
     var words = new List<string>();
     double dtempent = 0;
+    string sqlquery;
+    SqlCommand cmd;
+    SqlDataReader reader;
+
     while (curlen < minlen)
     {
 
 
         int id = rnd.Next(selllang.dictionary_size);
 
-        var sqlquery = "SELECT TOP 1 word FROM words_" + selllang.language_code + " WHERE id >" + id;
+        sqlquery = "SELECT TOP 1 word FROM words_" + selllang.language_code + " WHERE id >" + id;
         log.Info($"{sqlquery}");
-        SqlCommand cmd = new SqlCommand(sqlquery, conn);
-        SqlDataReader reader = cmd.ExecuteReader();
+        cmd = new SqlCommand(sqlquery, conn);
+        reader = cmd.ExecuteReader();
 
         while (reader.Read())
         {
