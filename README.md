@@ -1,6 +1,6 @@
 # Funky password generator
 
-I'm mostly the infra guy who was annoyed with random passwords and wanted to provide something more human oriented to end users which triggered me to code multiple implementations of dictionary based passphrase generators and made one of them opensource. The project was created for fun to play a little bit with serverless architecture and it is built on Azure Functions, Azure SQL with Vue.js Front-end.
+I'm mostly the infra guy who was annoyed with random passwords and wanted to provide something more human oriented to end users which triggered me to code multiple implementations of dictionary based passphrase generators and made one of them opensource. The project was created for fun to play a little bit with serverless architecture and it is built on Azure Functions, Azure SQL with Bootstrap and Vue.js Front-end.
 
 To see it in inaction go to https://funkypass.interkreacja.pl/ , you can also use API to integrate our password generator with your projects. 
 (please be aware that it is hosted as cheap as possible and takes a while to heat up workers when they are suspended)
