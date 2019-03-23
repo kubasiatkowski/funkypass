@@ -40,8 +40,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     if (minlen == 0)
         minlen = data?.minlen ?? 10;
-    if (minlen > 15)
-        minlen = 16;
+    if (minlen > 49)
+        minlen = 50;
 
     bool asciionly = true;
     bool.TryParse(sasciionly, out asciionly);
